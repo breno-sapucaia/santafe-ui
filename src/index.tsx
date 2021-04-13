@@ -3,16 +3,18 @@ import { ThemeProvider as StyledTheme } from 'styled-components'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import theme from './utils/theme'
-import { CssBaseline } from '@material-ui/core'
+
 import App from './App';
 
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <StyledTheme theme={theme}>
+      <ThemeProvider theme={theme}>
+       <App />
+      </ThemeProvider>
+    </StyledTheme>
   </React.StrictMode>,
   document.getElementById('root')
 );

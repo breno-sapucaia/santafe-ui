@@ -13,5 +13,7 @@ const VerticalDivider = styled.div`
     margin-right:24px;
     background-color: linear-gradient(#fff, #000,#fff);
 `
+const Logo = styled.img`
 
-export { StyledAppBar, StyledToolbar  }
+`
+export { StyledAppBar, StyledToolbar, VerticalDivider, Logo  }
