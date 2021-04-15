@@ -1,12 +1,12 @@
 import { CssBaseline } from '@material-ui/core';
 import React from 'react';
-import LoginPage from './pages/login';
+import SessionPage from './pages/session';
 
 function App() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <LoginPage />
+      <SessionPage />
     </React.Fragment>
   );
 }

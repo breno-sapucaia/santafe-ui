@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@material-ui/styles';
-import { ThemeProvider as StyledTheme } from 'styled-components'
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import theme from './utils/theme'
@@ -10,11 +10,9 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <StyledTheme theme={theme}>
-      <ThemeProvider theme={theme}>
-       <App />
-      </ThemeProvider>
-    </StyledTheme>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
