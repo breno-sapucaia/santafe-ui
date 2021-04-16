@@ -1,9 +1,12 @@
-import { TextField } from '@material-ui/core'
+import { Button, createStyles, Grid, Link, TextField, Theme, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 import { useFormik } from 'formik'
+import FacebookIcon from '../../assets/icons/facebook-icon.svg'
+import GoogleIcon from '../../assets/icons/google-plus-icon.svg'
 import React from 'react'
 import * as yup from 'yup'
 
-interface Props {}
+interface Props { }
 const validationSchema = yup.object({
     email: yup
         .string()
@@ -18,7 +21,8 @@ const validationSchema = yup.object({
 
 
 function Form(props: Props) {
-    const {} = props
+    
+    const classes = useStyles();
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -26,33 +30,141 @@ function Form(props: Props) {
         },
         validationSchema,
         onSubmit: (values) => {
-            alert(JSON.stringify(values,null,2))
+            alert(JSON.stringify(values, null, 2))
         }
     });
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <TextField
-                fullWidth
-                id="email"
-                name="email"
-                label="Email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-            />
-            <TextField
-                fullWidth
-                id="password"
-                name="password"
-                label="Password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                error={formik.touched.password && Boolean(formik.errors.password)}
-                helperText={formik.touched.password && formik.errors.password}
-            />
-        </form>
+        <Grid container xs={12}>
+            <Grid item xs={12}>
+                <form className={classes.form} onSubmit={formik.handleSubmit}>
+                    <TextField
+                        fullWidth
+                        id="email"
+                        name="email"
+                        label="Email"
+                        variant="outlined"
+                        color="secondary"
+                        className={classes.input}
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email && formik.errors.email}
+                    />
+                    <TextField
+                        fullWidth
+                        id="password"
+                        name="password"
+                        label="Password"
+                        variant="outlined"
+                        color="secondary"
+                        className={classes.input}
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        error={formik.touched.password && Boolean(formik.errors.password)}
+                        helperText={formik.touched.password && formik.errors.password}
+                    />
+                    <Typography className={classes.forgotLink}>
+                        <Link> Esqueceu a senha?</Link>
+                    </Typography>
+                    <Button
+                        type='submit'
+                        variant='contained'
+                        color='primary'
+                        fullWidth
+                        className={classes.submitBtn}
+                    >
+                        Entrar</Button>
+                    <Typography className={classes.divider} component="div"><span>ou</span></Typography>
+                    <Grid 
+                        container  
+                        justify={"space-between"}
+                        xs={12}>
+                        <Grid item className={classes.paddingRight} xs={6}>
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                className={classes.googleButton}
+                                color="primary"
+                            >
+                                <img alt="Google Icon"className={classes.icon} src={GoogleIcon} /> Google
+                        </Button>
+                        </Grid>
+                        <Grid className={classes.paddingLeft} item xs={6}>
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                className={classes.facebookButton}
+                                color="primary">
+                                <img alt="FacebookIcon" className={classes.icon} src={FacebookIcon} /> Facebook
+                        </Button>
+
+                        </Grid>
+                    </Grid>
+                </form >
+            </Grid>
+        </Grid >
     )
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        form: {
+            display: 'flex',
+            flexDirection: 'column'
+        },
+        input: {
+            marginBottom: theme.spacing(2)
+        },
+        forgotLink: {
+            textAlign: 'right'
+        },
+        submitBtn: {
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1)
+        },
+        divider: {
+            display: 'flex',
+            textAlign: 'center',
+            '&>span': {
+                marginBottom: 3.5,
+                color: "#aaa"
+            },
+            '&::after': {
+                content: '""',
+                alignSelf: 'center',
+                flexGrow: 1,
+                backgroundColor: "#ccc",
+                height: 1,
+                marginBottom: 3,
+                marginLeft: theme.spacing(2)
+            },
+            '&::before': {
+                content: '""',
+                alignSelf: 'center',
+                flexGrow: 1,
+                backgroundColor: "#ccc",
+                height: 1,
+                marginRight: theme.spacing(2),
+                marginBottom: 3
+            }
+        },
+        icon: {
+            color: "#fff",
+            marginRight: theme.spacing(1.5)
+        },
+        paddingLeft:{
+            paddingLeft: theme.spacing(1)
+        },
+        paddingRight:{
+            paddingRight: theme.spacing(1)
+        },
+        facebookButton: {
+            background: "#1479BD",
+        },
+        googleButton: {
+            background: "#DD4B38",
+        }
+
+
+    }))
 export default Form

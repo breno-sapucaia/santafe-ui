@@ -22,7 +22,7 @@ export function TabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Container className={classes.container} maxWidth="sm">
+                <Container component="main" className={classes.container} maxWidth="lg">
                     <main>
                         {children}
                     </main>
@@ -72,7 +72,7 @@ function Header(props: HeaderProps) {
     return (
         <AppBar className={classes.appBar}>
             <Toolbar className={classes.toolbar}variant="dense">
-                <img className={classes.logo} src={LogoImg} />
+                <img alt="logo"className={classes.logo} src={LogoImg} />
                 <div className={classes.verticalDivider} />
                 <MenuTabs setValue={setValue} value={value} />
             </Toolbar>
@@ -85,10 +85,15 @@ const useStyles = makeStyles((theme: Theme) => {
         root: {
             flexGrow: 1,
             backgroundColor: "#fafafa",
+            color: '#000'
         },
         container: {
             height: '100vh',
             paddingTop: 58,
+            paddingBottom: 58,
+            display:'flex',
+            justifyContent:'center',
+            alignItems:'center'
         },
         verticalDivider: {
             position: 'relative',
