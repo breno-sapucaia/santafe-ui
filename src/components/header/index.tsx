@@ -1,32 +1,26 @@
-import React, { ReactNode } from 'react'
+import React, {  FunctionComponent } from 'react'
 
 import LogoImg from '../../assets/logo.png'
-import { AppBar, Container, makeStyles, Tab, Tabs, Theme, Toolbar } from '@material-ui/core'
+import { AppBar, makeStyles, Tab, Tabs, Theme, Toolbar } from '@material-ui/core'
 import createStyles from '@material-ui/core/styles/createStyles';
 
 interface TabPanelProps {
-    children?: ReactNode;
     index: any;
     value: any;
 }
 
-export function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+export const TabPanel: FunctionComponent<TabPanelProps> = (props) => {
     const classes = useStyles()
     return (
         <div
             role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
+            hidden={props.value !== props.index}
+            id={`simple-tabpanel-${props.index}`}
+            aria-labelledby={`simple-tab-${props.index}`}
+            className={classes.root}
         >
-            {value === index && (
-                <Container component="main" className={classes.container} maxWidth="lg">
-                    <main>
-                        {children}
-                    </main>
-                </Container>
+            {props.value === props.index && (
+                props.children !== undefined && props.children
             )}
         </div>
     );
@@ -85,15 +79,12 @@ const useStyles = makeStyles((theme: Theme) => {
         root: {
             flexGrow: 1,
             backgroundColor: "#fafafa",
-            color: '#000'
-        },
-        container: {
-            height: '100vh',
-            paddingTop: 58,
-            paddingBottom: 58,
+            justifyContent:"start",
+            alignItems:'center',
             display:'flex',
-            justifyContent:'center',
-            alignItems:'center'
+            flexDirection: 'row',
+            overflow:'hidden',
+            color: '#000'
         },
         verticalDivider: {
             position: 'relative',

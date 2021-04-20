@@ -1,9 +1,9 @@
-import { Button, createStyles, Grid, Link, TextField, Theme, Typography } from '@material-ui/core'
+import { Button, createStyles, Grid, Link, TextField, Theme, Typography, Modal, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useFormik } from 'formik'
 import FacebookIcon from '../../assets/icons/facebook-icon.svg'
 import GoogleIcon from '../../assets/icons/google-plus-icon.svg'
-import React from 'react'
+import React, { useState } from 'react'
 import * as yup from 'yup'
 
 interface Props { }
@@ -21,7 +21,16 @@ const validationSchema = yup.object({
 
 
 function Form(props: Props) {
-    
+
+    const [open, setOpen] = useState(false)
+    const handleModalClose = () => {
+        setOpen(!open)
+    }
+
+    const handleModalOpen = () => {
+        setOpen(!open)
+    }
+
     const classes = useStyles();
     const formik = useFormik({
         initialValues: {
@@ -33,84 +42,98 @@ function Form(props: Props) {
             alert(JSON.stringify(values, null, 2))
         }
     });
-    return (
-        <Grid container xs={12}>
-            <Grid item xs={12}>
-                <form className={classes.form} onSubmit={formik.handleSubmit}>
-                    <TextField
-                        fullWidth
-                        id="email"
-                        name="email"
-                        label="Email"
-                        variant="outlined"
-                        color="secondary"
-                        className={classes.input}
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                        error={formik.touched.email && Boolean(formik.errors.email)}
-                        helperText={formik.touched.email && formik.errors.email}
-                    />
-                    <TextField
-                        fullWidth
-                        id="password"
-                        name="password"
-                        label="Password"
-                        variant="outlined"
-                        color="secondary"
-                        className={classes.input}
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        error={formik.touched.password && Boolean(formik.errors.password)}
-                        helperText={formik.touched.password && formik.errors.password}
-                    />
-                    <Typography className={classes.forgotLink}>
-                        <Link> Esqueceu a senha?</Link>
-                    </Typography>
-                    <Button
-                        type='submit'
-                        variant='contained'
-                        color='primary'
-                        fullWidth
-                        className={classes.submitBtn}
-                    >
-                        Entrar</Button>
-                    <Typography className={classes.divider} component="div"><span>ou</span></Typography>
-                    <Grid 
-                        container  
-                        justify={"space-between"}
-                        xs={12}>
-                        <Grid item className={classes.paddingRight} xs={6}>
-                            <Button
-                                variant="contained"
-                                fullWidth
-                                className={classes.googleButton}
-                                color="primary"
-                            >
-                                <img alt="Google Icon"className={classes.icon} src={GoogleIcon} /> Google
+
+    const body = (
+        <Paper className={classes.modal}>
+            <Paper className={classes.containerModal}>
+                
+            </Paper>
+        </Paper>
+    )
+
+    return (<Grid item className={classes.root}>
+            <Modal open={open} onClose={handleModalClose}>
+                {body}
+            </Modal>
+            <form className={classes.form} onSubmit={formik.handleSubmit}>
+                <TextField
+                    fullWidth
+                    id="email"
+                    name="email"
+                    label="Email"
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.input}
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                />
+                <TextField
+                    fullWidth
+                    id="password"
+                    name="password"
+                    label="Password"
+                    type="password"
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.input}
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    error={formik.touched.password && Boolean(formik.errors.password)}
+                    helperText={formik.touched.password && formik.errors.password}
+                />
+                <Typography className={classes.forgotLink}>
+                    <Link onClick={handleModalOpen} style={{cursor: 'pointer'}}> Esqueceu a senha?</Link>
+                </Typography>
+                <Button
+                    type='submit'
+                    variant='contained'
+                    color='primary'
+                    fullWidth
+                    className={classes.submitBtn}
+                >
+                    Entrar</Button>
+                <Typography className={classes.divider} component="div"><span>ou</span></Typography>
+                <Grid
+                    container
+                    justify={"space-between"}>
+                    <Grid item className={classes.paddingRight} xs={6}>
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            className={classes.googleButton}
+                            color="primary"
+                        >
+                            <img alt="Google Icon" className={classes.icon} src={GoogleIcon} /> Google
                         </Button>
-                        </Grid>
-                        <Grid className={classes.paddingLeft} item xs={6}>
-                            <Button
-                                variant="contained"
-                                fullWidth
-                                className={classes.facebookButton}
-                                color="primary">
-                                <img alt="FacebookIcon" className={classes.icon} src={FacebookIcon} /> Facebook
+                    </Grid>
+                    <Grid className={classes.paddingLeft} item xs={6}>
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            className={classes.facebookButton}
+                            color="primary">
+                            <img alt="FacebookIcon" className={classes.icon} src={FacebookIcon} /> Facebook
                         </Button>
 
-                        </Grid>
                     </Grid>
-                </form >
-            </Grid>
-        </Grid >
+                </Grid>
+            </form>
+        </Grid>
     )
 }
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        root:{
+            display:'flex',
+            width:'100%'
+        },
         form: {
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            flexGrow: 1
         },
         input: {
             marginBottom: theme.spacing(2)
@@ -152,10 +175,10 @@ const useStyles = makeStyles((theme: Theme) =>
             color: "#fff",
             marginRight: theme.spacing(1.5)
         },
-        paddingLeft:{
+        paddingLeft: {
             paddingLeft: theme.spacing(1)
         },
-        paddingRight:{
+        paddingRight: {
             paddingRight: theme.spacing(1)
         },
         facebookButton: {
@@ -163,8 +186,20 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         googleButton: {
             background: "#DD4B38",
+        },
+        modal:{
+            position: 'absolute',
+            top:'50%',
+            left: '50%', 
+            display: 'flex',
+            justifyContent:'center',
+            alignContent: 'center',
+            width: 412,
+            height: 315,
+            backgroundColor:'#fafafa',
+            transform: 'translate(-50%, -50%)'
+        },
+        containerModal: {
         }
-
-
     }))
 export default Form
