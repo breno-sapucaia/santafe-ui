@@ -42,17 +42,12 @@ const useStyles = makeStyles((theme: Theme) =>
         login: {
             display: 'flex',
             flexDirection: 'column',
+            alignItems:'start',
+            justifyContent:'center',
             [theme.breakpoints.up('lg')]: {
                 width: 380,
                 margin: '0 auto'
-            },
-            [theme.breakpoints.up('xl')]: {
-                position: 'relative',
-                margin: 'initial',
-                marginRight: '300px'
-
-                // justifyContent:'space-around',
-            },
+            }
         },
         container: {
             height: '100vh',
