@@ -1,51 +1,39 @@
-import { Button, createStyles, Grid, Link, TextField, Theme, Typography, Modal, Paper } from '@material-ui/core'
+import { Button, createStyles, Grid, Link, TextField, Theme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useFormik } from 'formik'
+import React from 'react'
+import { NavLink } from 'react-router-dom'
+import * as yup from 'yup'
 import FacebookIcon from '../../assets/icons/facebook-icon.svg'
 import GoogleIcon from '../../assets/icons/google-plus-icon.svg'
-import React, { useState } from 'react'
-import * as yup from 'yup'
 
 interface Props { }
 const validationSchema = yup.object({
     email: yup
         .string()
-        .email('insira um E-mail válido')
+        .email('Insira um E-mail válido')
         .required('E-mail é obrigatório'),
     password: yup
         .string()
         .min(8, 'A senha deve conter no mínimo 8 caractéres')
-        .required('Senha é obrigatória'),
-    confirmPassword: yup
-        .string()
-        .min(8, 'A senha deve conter no mínimo 8 caractéres')
-        .test('match',
-            'as senhas não batem',
-            function (confirmPassword) {
-                return confirmPassword === this.parent.password;
-            }),
-
+        .required('Senha é obrigatória')
 
 })
 
 
-function Form(props: Props) {
-
+function FormLogin(props: Props) {
 
     const classes = useStyles();
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
-            confirmPassword: '',
         },
         validationSchema,
         onSubmit: (values) => {
             alert(JSON.stringify(values, null, 2))
         }
     });
-
-
 
     return (<Grid item className={classes.root}>
         <form className={classes.form} onSubmit={formik.handleSubmit}>
@@ -54,6 +42,7 @@ function Form(props: Props) {
                 id="email"
                 name="email"
                 label="Email"
+                autoComplete="username"
                 variant="outlined"
                 color="secondary"
                 className={classes.input}
@@ -66,30 +55,20 @@ function Form(props: Props) {
                 fullWidth
                 id="password"
                 name="password"
-                label="Senha"
+                label="Password"
                 type="password"
                 variant="outlined"
                 color="secondary"
+                autoComplete="current-password"
                 className={classes.input}
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 error={formik.touched.password && Boolean(formik.errors.password)}
                 helperText={formik.touched.password && formik.errors.password}
             />
-            <TextField
-                fullWidth
-                id="confirmPassword"
-                name="confirmPassword"
-                label="Confirmar Senha"
-                type="password"
-                variant="outlined"
-                color="secondary"
-                className={classes.input}
-                value={formik.values.confirmPassword}
-                onChange={formik.handleChange}
-                error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-                helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-            />
+            <Typography className={classes.forgotLink}>
+                <Link component={NavLink} to='/recuperar' style={{ cursor: 'pointer' }}> Esqueceu a senha?</Link>
+            </Typography>
             <Button
                 type='submit'
                 variant='contained'
@@ -97,7 +76,7 @@ function Form(props: Props) {
                 fullWidth
                 className={classes.submitBtn}
             >
-                Cadastrar</Button>
+                Entrar</Button>
             <Typography className={classes.divider} component="div"><span>ou</span></Typography>
             <Grid
                 container
@@ -120,7 +99,6 @@ function Form(props: Props) {
                         color="primary">
                         <img alt="FacebookIcon" className={classes.icon} src={FacebookIcon} /> Facebook
                         </Button>
-
                 </Grid>
             </Grid>
         </form>
@@ -190,20 +168,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         googleButton: {
             background: "#DD4B38",
-        },
-        modal: {
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignContent: 'center',
-            width: 412,
-            height: 315,
-            backgroundColor: '#fafafa',
-            transform: 'translate(-50%, -50%)'
-        },
-        containerModal: {
         }
     }))
-export default Form
+export default FormLogin
