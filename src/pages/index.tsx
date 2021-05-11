@@ -16,7 +16,7 @@ interface Props { }
 
 function Index(props: Props) {
 
-    // const theme = useTheme()
+    const [globalState] = useJWT()
 
     useEffect(() => {
         document.title = "Santafe";
@@ -32,27 +32,33 @@ function Index(props: Props) {
                     className={classes.container}
                     maxWidth={'lg'}>
                     <Switch>
-                        <Route path="/entrar" component={Login} />
-                        <Route path="/cadastrar" component={Register} />
-                        <Route path="/recuperar" component={ResetPassword} />
-                        <Redirect exact from="/" to="/entrar" />
+                        {globalState.isAuth ? (
+                            <>
+                                <Route path="/entrar" component={Login} />
+                                <Route path="/cadastrar" component={Register} />
+                                <Route path="/recuperar" component={ResetPassword} />
+                                <Redirect exact from="/" to="/entrar" />
+                            </>
+                        ) : <>
+                            <Route path="/privateRoute" component={Login} />
+                        </>}
                     </Switch>
                 </Container>
-                <img className={classes.img} src={Bg} alt="backgroundImage" />
+                    <img className={classes.img} src={Bg} alt="backgroundImage" />
             </main>
         </Router >
     )
 }
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
-    main: {
-        display: 'flex',
+                main: {
+                display: 'flex',
         flexDirection: 'row',
         overflow: 'hidden',
         maxHeight: '100vh'
     },
     container: {
-        height: '100vh',
+                height: '100vh',
         paddingTop: 58,
         paddingBottom: 58,
         display: 'flex',
@@ -62,30 +68,34 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         maxWidth: 288,
         overflow: 'hidden',
         [theme.breakpoints.up('sm')]: {
-            maxWidth: 520,
+                maxWidth: 520,
         },
         [theme.breakpoints.up('lg')]: {
-            maxWidth: '100vw',
+                maxWidth: '100vw',
             margin: 'initial',
             justifyContent: 'space-between',
             paddingLeft: 'initial',
             paddingRight: 'initial',
         },
         [theme.breakpoints.up('xl')]: {
-            justifyContent: 'center'
+                justifyContent: 'center'
         },
 
     },
     img: {
-        position: 'relative',
+                position: 'relative',
         maxWidth: '50vw',
         height: '100vh',
         top: 0,
         transition: '0.5s',
         zIndex: theme.zIndex.appBar + 1,
         [theme.breakpoints.down('md')]: {
-            display: 'none'
+                display: 'none'
         }
     }
 }))
 export default Index
+function useJWT(): [any] {
+    throw new Error('Function not implemented.');
+}
+

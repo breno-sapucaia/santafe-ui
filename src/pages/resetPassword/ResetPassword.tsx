@@ -1,8 +1,9 @@
 import { Button, createStyles, Grid, LinearProgress, makeStyles, Slide, Snackbar, TextField, Theme, Typography } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import { Alert, Color } from '@material-ui/lab';
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import * as yup from 'yup';
+import api from '../../config/api';
 interface Props { }
 
 const validationSchema = yup.object({
@@ -16,6 +17,7 @@ function ResetPassword(props: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [message, setMessage] = useState('');
+    const [severity, setSeverity] = useState<Color | undefined>(undefined)
     const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') return
         setIsOpen(false);
@@ -28,23 +30,31 @@ function ResetPassword(props: Props) {
         validationSchema,
         onSubmit: (values) => {
             setIsLoading(true)
-            // console.log(values)
-            // api.post('/auth/reset-password', values).then((response) => {
-            //     if (response.status === 200) {
-            //         setMessage(response.data.message)
-            //         setIsOpen(true);
-            //     }
-            // }).catch((err) => {
-            //     console.log(err)
-            // }).finally(() => {
-            // })
-            setTimeout(() => {
+            setIsOpen(false)
+            api.post('/auth/reset-password', values).then((response) => {
+                if (response.status === 200) {
+                    setSeverity('success')
+                    setMessage(response.data.message)
+                    setIsOpen(true);
+                }
+
+            }).catch((error) => {
+                if (error.response) {
+                    const { response } = error
+                    if (response.status === 404) {
+                        setMessage(response.data.message)
+                        setIsOpen(true)
+                        setSeverity('error')
+                    }
+
+                } else if (error.request) {
+                    console.log(error.request);
+                } else
+                    console.log('Error:', error.message);
+
+            }).finally(() => {
                 setIsLoading(false)
-                setIsOpen(true)
-            }, 3000)
-            setMessage('mock message arigatoooo')
-
-
+            })
         }
     });
     return (
@@ -62,7 +72,7 @@ function ResetPassword(props: Props) {
             <Grid item xs={12}>
                 <Typography variant="subtitle1">
                     Digite seu email a baixo que enviaremos um email para você
-                    </Typography>
+                </Typography>
             </Grid>
             <form className={classes.form} onSubmit={formik.handleSubmit}>
                 {isLoading ? <LinearProgress color="primary" /> : <></>}
@@ -74,16 +84,19 @@ function ResetPassword(props: Props) {
                     autoComplete="username"
                     variant="outlined"
                     color="secondary"
+                    onKeyDown={() => setIsOpen(false)}
                     className={classes.input}
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
                 />
+
                 <Button
                     type="submit"
                     fullWidth
                     variant="contained"
+                    disabled={isLoading}
                     color="primary">
                     enviar
                 </Button>
@@ -93,8 +106,9 @@ function ResetPassword(props: Props) {
                 onClose={handleClose}
                 TransitionComponent={(props) => <Slide {...props} direction="up" />}
                 autoHideDuration={5000}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
             >
-                <Alert elevation={6} variant="filled" onClose={handleClose} severity="success">
+                <Alert elevation={6} variant="filled" onClose={handleClose} severity={severity}>
                     {message}
                 </Alert>
             </Snackbar>

@@ -12,8 +12,11 @@ interface HeaderProps {
 function Header(props: HeaderProps) {
     const classes = useStyles();
     const [toggle, setToggle] = useState<boolean>(false)
-    const handleToggle = () => {
-        setToggle(!toggle)
+    const handleClickEntrar = () => {
+        setToggle(false)
+    }
+    const handleClickCadastrar = () => {
+        setToggle(true)
     }
 
     return (
@@ -22,8 +25,8 @@ function Header(props: HeaderProps) {
                 <img alt="logo" className={classes.logo} src={LogoImg} />
                 <div className={classes.verticalDivider} />
                 <ul className={classes.menu}>
-                    <li><Button component={NavLink} to="/entrar" onClick={handleToggle}>ENTRAR</Button></li>
-                    <li><Button component={NavLink} to="/cadastrar" onClick={handleToggle}>CADASTRAR</Button></li>
+                    <li><Button component={NavLink} to="/entrar" onClick={handleClickEntrar}>ENTRAR</Button></li>
+                    <li><Button component={NavLink} to="/cadastrar" onClick={handleClickCadastrar}>CADASTRAR</Button></li>
                     <span className={clsx(classes.border, toggle && classes.borderSlide)} />
                 </ul>
             </Toolbar>
@@ -61,10 +64,10 @@ const useStyles = makeStyles((theme: Theme) => {
             width: 63
         },
         menu: {
-            display: 'flex',
             position: 'relative',
-            color: '#000',
+            display: 'flex',
             padding: 0,
+            color: '#000',
             width: 250,
             listStyle: 'none',
             '& > li': {
@@ -81,14 +84,15 @@ const useStyles = makeStyles((theme: Theme) => {
         },
         border: {
             position: 'absolute',
-            width: 250 / 2,
+            width: 'calc(100% / 2)',
             bottom: 0,
             height: 2,
             background: 'linear-gradient(#fff,#000,#fff)',
             transition: '0.3s ease-in-out'
         },
         borderSlide: {
-            transform: 'translateX(125px)'
+            transform: 'translateX(100%)',
+
         }
     })
 })
