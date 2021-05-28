@@ -1,5 +1,6 @@
 import { CssBaseline } from '@material-ui/core';
 import React from 'react';
+import { JwtProvider } from './config/contexts/jwt-context';
 import Pages from './pages/';
 
 function App() {
@@ -7,7 +8,9 @@ function App() {
 	return (
 		<React.Fragment>
 			<CssBaseline />
-			<Pages />
+			<JwtProvider>
+				<Pages />
+			</JwtProvider>
 		</React.Fragment>
 	);
 }

@@ -1,13 +1,9 @@
-import React from 'react'
+import React from "react";
 
 interface Props {}
 
 function PrivateApp(props: Props) {
-    const {} = props
-
-    return (
-        
-    )
+  return <div></div>;
 }
 
-export default PrivateApp
+export default PrivateApp;

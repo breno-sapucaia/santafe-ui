@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useReducer } from 'react';
+import { createContext, ReactNode, useContext, useReducer } from 'react';
 enum ActionsJWT {
     SET,
     GET,
@@ -43,7 +43,7 @@ const reducer = (state: State, action: Action): State => {
 
 }
 
-const JwtProvider = ({ children }: ProviderProps) => {
+export const JwtProvider = ({ children }: ProviderProps) => {
     const [state, dispatch] = useReducer(reducer, { jwt: '', isAuth: false });
     return (
         <JwtStateContext.Provider value={state}>
@@ -53,3 +53,16 @@ const JwtProvider = ({ children }: ProviderProps) => {
         </JwtStateContext.Provider>
     )
 }
+
+const useStateJWT = () => {
+    const context = useContext(JwtStateContext)
+    if (context === undefined) throw new Error("useStateJWT must be within JwtProvider")
+    return context
+}
+const useDispatchJWT = () => {
+    const context = useContext(JwtDispatchContext)
+    if (context === undefined) throw new Error("JwtDispatchJWT must be within JwtProvider")
+    return context
+}
+
+const useJwt = (): [State, Dispatch] => [useStateJWT(), useDispatchJWT()]
