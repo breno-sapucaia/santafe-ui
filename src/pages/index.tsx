@@ -7,7 +7,7 @@ import {
     Switch
 } from "react-router-dom";
 import Bg from '../assets/bg-session.png';
-import Header from '../components/header';
+import Header from '../components/public/header';
 import Login from './login';
 import Register from './register';
 import ResetPassword from './resetPassword';
