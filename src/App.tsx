@@ -1,17 +1,14 @@
-import { CssBaseline } from '@material-ui/core';
-import React from 'react';
-import { JwtProvider } from './config/contexts/jwt-context';
-import Pages from './pages/';
-
+import { CssBaseline } from '@material-ui/core'
+import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
+import PrivateApp from './pages/app'
 function App() {
-
-	return (
-		<React.Fragment>
-			<CssBaseline />
-			<JwtProvider>
-				<Pages />
-			</JwtProvider>
-		</React.Fragment>
-	);
+  return (
+    <Router>
+      <CssBaseline />
+      {/* <Pages /> */}
+      <PrivateApp />
+    </Router>
+  )
 }
-export default App;
+export default App
