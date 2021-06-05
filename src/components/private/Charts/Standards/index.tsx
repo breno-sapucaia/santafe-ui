@@ -5,24 +5,22 @@ import {
   Paper,
   Theme,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from '@material-ui/core'
 import Chart from 'react-google-charts'
 export interface StandardsProps {}
 export function Standards({}: StandardsProps) {
   const classes = useStyles()
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-  const legendPosition = isMobile
-    ? {
-        position: 'bottom',
-        alignment: 'center',
-      }
-    : {
-        position: 'right',
-        alignment: 'center',
-      }
+  // const theme = useTheme()
+  // const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  // const legendPosition = isMobile
+  //   ? {
+  //       position: 'bottom',
+  //       alignment: 'center',
+  //     }
+  //   : {
+  //       position: 'right',
+  //       alignment: 'center',
+  //     }
   return (
     <Paper className={classes.paper}>
       <div className='header'>

@@ -1,8 +1,10 @@
 import { Container, createStyles, makeStyles, Theme } from '@material-ui/core'
 import React, { useEffect } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import Bg from '../assets/bg-session.png'
 import Header from '../components/public/header'
+import { useJwt } from '../config/contexts/jwt-context'
+import PrivateApp from './app'
 import Login from './login'
 import Register from './register'
 import ResetPassword from './resetPassword'
@@ -13,8 +15,11 @@ export function Pages({}: Props) {
   useEffect(() => {
     document.title = 'Santafe'
   }, [])
-
+  const [globalState] = useJwt()
   const classes = useStyles()
+
+  if (globalState.isAuth) return <PrivateApp />
+
   return (
     <>
       <Header />
@@ -24,7 +29,7 @@ export function Pages({}: Props) {
             <Route path='/entrar' component={Login} />
             <Route path='/cadastrar' component={Register} />
             <Route path='/recuperar' component={ResetPassword} />
-            {/* <Redirect from='*' to='/entrar' /> */}
+            <Redirect from='*' to='/entrar' />
           </Switch>
         </Container>
         <img className={classes.img} src={Bg} alt='backgroundImage' />

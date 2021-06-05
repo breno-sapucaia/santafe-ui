@@ -5,12 +5,13 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  makeStyles,
+  makeStyles
 } from '@material-ui/core'
 import { Dashboard, Description } from '@material-ui/icons'
 import clsx from 'clsx'
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
+import { ActionsJWT, useJwt } from '../../../../../config/contexts/jwt-context'
 
 interface ListProps {
   pathname: string
@@ -18,6 +19,7 @@ interface ListProps {
 }
 
 function NavigationList({ pathname, isUserAdmin = true }: ListProps) {
+  const [globalState, setGlobalState] = useJwt();
   const classes = useStyles()
   return (
     <List>
@@ -56,7 +58,7 @@ function NavigationList({ pathname, isUserAdmin = true }: ListProps) {
           <ListItemText primary='Gerenciar Cadastros' />
         </ListItem>
       )}
-      <ListItem button>
+      <ListItem button onClick={() => setGlobalState({type: ActionsJWT.DELETE})}>
         <ListItemIcon>
           <Icon>logout</Icon>
         </ListItemIcon>

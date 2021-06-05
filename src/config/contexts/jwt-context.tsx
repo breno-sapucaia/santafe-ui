@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useReducer } from 'react'
-enum ActionsJWT {
+export enum ActionsJWT {
   SET,
   GET,
   DELETE,

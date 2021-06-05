@@ -2,6 +2,7 @@ import {
   Button,
   createStyles,
   Grid,
+  LinearProgress,
   Link,
   TextField,
   Theme,
@@ -9,11 +10,13 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import * as yup from 'yup'
 import FacebookIcon from '../../assets/icons/facebook-icon.svg'
 import GoogleIcon from '../../assets/icons/google-plus-icon.svg'
+import api from '../../config/api'
+import { ActionsJWT, useJwt } from '../../config/contexts/jwt-context'
 
 interface FormLoginProps {}
 const validationSchema = yup.object({
@@ -29,6 +32,8 @@ const validationSchema = yup.object({
 
 function FormLogin({}: FormLoginProps) {
   const classes = useStyles()
+  const [globalState, setGlobalState] = useJwt()
+  const [loading, setLoading] = useState(false)
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -36,13 +41,23 @@ function FormLogin({}: FormLoginProps) {
     },
     validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
+      setLoading(true)
+      api
+        .post('/auth/login', values)
+        .then((result) => {
+          if (result.status === 200) {
+            setGlobalState({ type: ActionsJWT.SET, jwt: result.data.token })
+          }
+        })
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false))
     },
   })
 
   return (
     <Grid item className={classes.root}>
       <form className={classes.form} onSubmit={formik.handleSubmit}>
+        {loading ? <LinearProgress color='primary' /> : <></>}
         <TextField
           fullWidth
           id='email'

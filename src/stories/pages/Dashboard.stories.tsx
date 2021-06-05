@@ -7,5 +7,5 @@ export default {
 
 const Template: Story<DashboardProps> = (args) => <Dashboard {...args} />
 
-export const Index = Template.bind({})
-Index.args = {}
+export const Default = Template.bind({})
+Default.args = {}
