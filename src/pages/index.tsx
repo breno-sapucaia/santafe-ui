@@ -18,24 +18,24 @@ export function Pages({}: Props) {
   const [globalState] = useJwt()
   const classes = useStyles()
 
-  // if (globalState.isAuth) return <PrivateApp />
-  return <PrivateApp />
-  // return (
-  //   <>
-  //     <Header />
-  //     <main className={classes.main}>
-  //       <Container className={classes.container} maxWidth={'lg'}>
-  //         <Switch>
-  //           <Route path='/entrar' component={Login} />
-  //           <Route path='/cadastrar' component={Register} />
-  //           <Route path='/recuperar' component={ResetPassword} />
-  //           <Redirect from='*' to='/entrar' />
-  //         </Switch>
-  //       </Container>
-  //       <img className={classes.img} src={Bg} alt='backgroundImage' />
-  //     </main>
-  //   </>
-  // )
+  if (globalState.isAuth) return <PrivateApp />
+
+  return (
+    <>
+      <Header />
+      <main className={classes.main}>
+        <Container className={classes.container} maxWidth={'lg'}>
+          <Switch>
+            <Route path='/entrar' component={Login} />
+            <Route path='/cadastrar' component={Register} />
+            <Route path='/recuperar' component={ResetPassword} />
+            <Redirect from='*' to='/entrar' />
+          </Switch>
+        </Container>
+        <img className={classes.img} src={Bg} alt='backgroundImage' />
+      </main>
+    </>
+  )
 }
 
 const useStyles = makeStyles((theme: Theme) =>
