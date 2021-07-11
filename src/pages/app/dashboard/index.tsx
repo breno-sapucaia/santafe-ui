@@ -1,8 +1,7 @@
 import { Container, createStyles, makeStyles, Theme } from '@material-ui/core'
 import { Standards } from '../../../components/private/Charts/Standards'
-export interface DashboardProps {}
 
-export function Dashboard({}: DashboardProps): JSX.Element {
+export function Dashboard() {
   const classes = useStyles()
   return (
     <Container maxWidth='lg' className={classes.container}>
