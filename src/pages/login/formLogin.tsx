@@ -6,7 +6,7 @@ import {
   Link,
   TextField,
   Theme,
-  Typography
+  Typography,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useFormik } from 'formik'
@@ -17,6 +17,7 @@ import GoogleIcon from '../../assets/icons/google-plus-icon.svg'
 import FacebookButton from '../../components/public/socialLogin/facebookLogin'
 import api from '../../config/api'
 import { ActionsJWT, useJwt } from '../../config/contexts/jwt-context'
+
 const validationSchema = yup.object({
   email: yup
     .string()
