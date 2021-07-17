@@ -1,5 +1,5 @@
 import { Container, createStyles, makeStyles, Theme } from '@material-ui/core'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import Bg from '../assets/bg-session.png'
 import Header from '../components/public/header'
