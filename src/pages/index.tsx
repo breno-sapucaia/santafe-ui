@@ -9,9 +9,7 @@ import Login from './login'
 import Register from './register'
 import ResetPassword from './resetPassword'
 
-interface Props {}
-
-export function Pages({}: Props) {
+export function Pages() {
   useEffect(() => {
     document.title = 'Santafe'
   }, [])
