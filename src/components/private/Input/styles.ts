@@ -5,6 +5,8 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   position: relative;
+  flex: 1;
+  margin-right: 20px;
 
   input {
     width: 100%;
@@ -54,7 +56,6 @@ export const Container = styled.div`
     position: absolute;
     top: -6px;
     left: 16px;
-    color: #6200ee;
     background-color: #ffffff;
     z-index: 10;
   }

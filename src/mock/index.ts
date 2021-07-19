@@ -1,19 +1,19 @@
 export const clientsData = [
   {
     id: 1,
-    name: 'João Silva',
+    name: 'João 1 Silva',
     email: 'joaosilva@gmail.com',
     phone: '(55)+11959223145',
   },
   {
     id: 2,
-    name: 'João Silva',
+    name: 'João 2 Silva',
     email: 'joaosilva@gmail.com',
     phone: '(55)+11959223145',
   },
   {
     id: 3,
-    name: 'João Silva',
+    name: 'João 3 Silva',
     email: 'joaosilva@gmail.com',
     phone: '(55)+11959223145',
   },

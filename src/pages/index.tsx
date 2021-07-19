@@ -15,7 +15,7 @@ export function Pages() {
   }, [])
   const [globalState] = useJwt()
   const classes = useStyles()
-
+  return <PrivateApp />
   if (globalState.isAuth) return <PrivateApp />
 
   return (

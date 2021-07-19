@@ -3,11 +3,12 @@ import {
   DataGrid,
   GridColDef,
   GridEditRowModelParams,
+  GridPageChangeParams,
   GridRowId,
   GridSelectionModelChangeParams,
   useGridSlotComponentProps,
 } from '@material-ui/data-grid'
-import { useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { clientsData } from '../../../mock'
 interface ClientsTable {
   searchTerm: string
@@ -38,6 +39,8 @@ export default function ClientsTable({ searchTerm }: ClientsTable) {
       editable: true,
     },
   ]
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [selectionModel, setSelectionModel] = useState<GridRowId[]>([])
   const [rowsData, setRowsData] = useState(clientsData)
 
@@ -62,26 +65,18 @@ export default function ClientsTable({ searchTerm }: ClientsTable) {
     )
   }
 
+  const handleChangePage = ({ page }: GridPageChangeParams) => {
+    setPage(page)
+  }
+
+  const handleChangeRowsPerPage = ({ pageSize }: GridPageChangeParams) => {
+    setRowsPerPage(pageSize)
+    // setPage(0)
+  }
+
   useEffect(() => {
     filterRows()
   }, [searchTerm])
-
-  const CustomPagination = () => {
-    const {
-      state: { pagination },
-      apiRef,
-    } = useGridSlotComponentProps()
-    console.log('pagination: ', pagination)
-    return (
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 50, 100]}
-        count={pagination.pageCount}
-        rowsPerPage={10}
-        page={pagination.page}
-        onChangePage={(event, value) => apiRef.current.setPage(value - 1)}
-      />
-    )
-  }
 
   return (
     <div style={{ height: '80vh', width: '100%', marginTop: '10px' }}>
@@ -93,9 +88,10 @@ export default function ClientsTable({ searchTerm }: ClientsTable) {
         checkboxSelection
         disableSelectionOnClick
         rowsPerPageOptions={[10, 25, 50, 100]}
-        components={{
-          Pagination: CustomPagination,
-        }}
+        pageSize={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onPageSizeChange={handleChangeRowsPerPage}
       />
     </div>
   )
