@@ -8,12 +8,17 @@ import {
 import { useState } from 'react'
 import ClientsTable from '../../../components/private/ClientsTable'
 import { Input } from '../../../components/private/Input'
-import { Button } from './styles'
+import { Button, ItemsList } from './styles'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 
 export function ManageUsers() {
   const { container } = useStyles()
   const [inputValue, setInputValue] = useState('')
+  const [isActionsOpened, setIsActionsOpened] = useState(false)
+
+  const handleToggleActionsOpened = (state: boolean) => {
+    setIsActionsOpened(state)
+  }
 
   return (
     <Container maxWidth='lg' className={container}>
@@ -24,9 +29,16 @@ export function ManageUsers() {
           placeholder='Digite um nome...'
           legendText='Procurar'
         />
-        <Button>
+        <Button
+          isActive={isActionsOpened}
+          onClick={() => handleToggleActionsOpened(!isActionsOpened)}
+        >
           <MoreHorizIcon />
           Ações em massa
+          <ItemsList>
+            <button>Ativar todos</button>
+            <button>Desativar todos</button>
+          </ItemsList>
         </Button>
       </Box>
       <ClientsTable searchTerm={inputValue} />
