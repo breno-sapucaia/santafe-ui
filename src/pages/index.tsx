@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import Bg from '../assets/bg-session.png'
 import Header from '../components/public/header'
-import { useJwt } from '../config/contexts/jwt-context'
+import { useJWT } from '../hooks/useJWT'
 import PrivateApp from './app'
 import Login from './login'
 import Register from './register'
@@ -13,10 +13,10 @@ export function Pages() {
   useEffect(() => {
     document.title = 'Santafe'
   }, [])
-  const [globalState] = useJwt()
+  const { isAuth } = useJWT()
   const classes = useStyles()
-  return <PrivateApp />
-  if (globalState.isAuth) return <PrivateApp />
+
+  if (isAuth) return <PrivateApp />
 
   return (
     <>

@@ -2,16 +2,16 @@ import { ThemeProvider } from '@material-ui/styles'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
-import { JwtProvider } from './config/contexts/jwt-context'
+import { JWTProvider } from './hooks/useJWT'
 import reportWebVitals from './reportWebVitals'
 import theme from './utils/theme'
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <JwtProvider>
+      <JWTProvider>
         <App />
-      </JwtProvider>
+      </JWTProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

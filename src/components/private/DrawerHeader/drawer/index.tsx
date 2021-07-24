@@ -16,7 +16,7 @@ export function Drawer({
   return (
     <NavigationDrawer anchor='left' open={open} onClose={handleClose}>
       <User />
-      <List pathname={pathname} isUserAdmin={true} />
+      <List pathname={pathname} />
     </NavigationDrawer>
   )
 }

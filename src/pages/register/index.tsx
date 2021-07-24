@@ -5,12 +5,9 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core'
-import React from 'react'
 import Form from './form'
 
-interface RegisterProps {}
-
-function Register({}: RegisterProps) {
+function Register() {
   const classes = useStyles()
 
   return (

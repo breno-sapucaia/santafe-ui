@@ -13,7 +13,6 @@ export const Chart = ({ title, ...rest }: ChartProps) => {
     <Container>
       <Header>
         <h2>{title}</h2>
-        <Icon>filter_alt</Icon>
       </Header>
       <GoogleChart
         width='100%'

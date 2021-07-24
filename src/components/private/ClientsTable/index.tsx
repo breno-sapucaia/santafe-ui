@@ -1,4 +1,3 @@
-import { TablePagination } from '@material-ui/core'
 import {
   DataGrid,
   GridColDef,

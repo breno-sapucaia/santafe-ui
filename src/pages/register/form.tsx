@@ -2,52 +2,140 @@ import {
   Button,
   createStyles,
   Grid,
+  LinearProgress,
+  Snackbar,
   TextField,
   Theme,
   Typography,
 } from '@material-ui/core'
+import { Alert, AlertTitle } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/styles'
 import { useFormik } from 'formik'
-import React from 'react'
+import { SyntheticEvent, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
 import FacebookIcon from '../../assets/icons/facebook-icon.svg'
 import GoogleIcon from '../../assets/icons/google-plus-icon.svg'
+import api from '../../config/api'
 
-interface RegisterProps {}
+interface UserData {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  confirmPassword?: string
+}
+
 const validationSchema = yup.object({
+  firstName: yup.string().required('O Primeiro nome é obrigatório'),
+  lastName: yup.string().required('O Sobrenome é obrigatório'),
   email: yup
     .string()
     .email('insira um E-mail válido')
     .required('E-mail é obrigatório'),
   password: yup
     .string()
-    .min(8, 'A senha deve conter no mínimo 8 caractéres')
-    .required('Senha é obrigatória'),
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      'A senha deve conter 8 caracteres sendo 1 maiúsculo, 1 numérico e 1 caractere especial'
+    ),
   confirmPassword: yup
     .string()
-    .min(8, 'A senha deve conter no mínimo 8 caractéres')
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      'A senha deve conter 8 caracteres sendo 1 maiúsculo, 1 numérico e 1 caractere especial'
+    )
     .test('match', 'as senhas não batem', function (confirmPassword) {
       return confirmPassword === this.parent.password
     }),
 })
 
-function Form({}: RegisterProps) {
+function Form() {
   const classes = useStyles()
+  const { push } = useHistory()
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const handleClose = (event?: SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
+
+  const onSubmit = (values: UserData) => {
+    setIsLoading(true)
+    delete values.confirmPassword
+    api
+      .post('/auth/register', values)
+      .then((result) => {
+        if (result.status === 200) {
+          setOpen(true)
+          setTimeout(() => {
+            push('/entrar')
+          }, 3000)
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false))
+  }
+
   const formik = useFormik({
     initialValues: {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       confirmPassword: '',
     },
     validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
-    },
+    onSubmit,
   })
 
   return (
     <Grid item className={classes.root}>
       <form className={classes.form} onSubmit={formik.handleSubmit}>
+        {isLoading ? <LinearProgress color='primary' /> : <></>}
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+        >
+          <Alert onClose={handleClose} variant='filled' severity='success'>
+            This is a success message!
+          </Alert>
+        </Snackbar>
+        <TextField
+          fullWidth
+          id='firstName'
+          name='firstName'
+          label='Primeiro nome'
+          autoComplete='firstName'
+          variant='outlined'
+          color='secondary'
+          className={classes.input}
+          value={formik.values.firstName}
+          onChange={formik.handleChange}
+          error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+          helperText={formik.touched.firstName && formik.errors.firstName}
+        />
+        <TextField
+          fullWidth
+          id='lastName'
+          name='lastName'
+          label='Sobrenome'
+          autoComplete='lastName'
+          variant='outlined'
+          color='secondary'
+          className={classes.input}
+          value={formik.values.lastName}
+          onChange={formik.handleChange}
+          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+          helperText={formik.touched.lastName && formik.errors.lastName}
+        />
         <TextField
           fullWidth
           id='email'

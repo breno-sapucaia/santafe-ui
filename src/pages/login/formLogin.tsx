@@ -16,7 +16,7 @@ import * as yup from 'yup'
 import GoogleIcon from '../../assets/icons/google-plus-icon.svg'
 import FacebookButton from '../../components/public/socialLogin/facebookLogin'
 import api from '../../config/api'
-import { ActionsJWT, useJwt } from '../../config/contexts/jwt-context'
+import { useJWT } from '../../hooks/useJWT'
 
 const validationSchema = yup.object({
   email: yup
@@ -32,7 +32,7 @@ const validationSchema = yup.object({
 function FormLogin() {
   const classes = useStyles()
   const appId = process.env.REACT_APP_FACEBOOK_APP_ID || '4300458399993707'
-  const [, setGlobalState] = useJwt()
+  const { setLocalData } = useJWT()
   const [loading, setLoading] = useState(false)
 
   const handleFacebookLogin = (user: any, accessToken: string) => {
@@ -52,7 +52,7 @@ function FormLogin() {
         .post('/auth/login', values)
         .then((result) => {
           if (result.status === 200) {
-            setGlobalState({ type: ActionsJWT.SET, jwt: result.data.token })
+            setLocalData(result.data.token)
           }
         })
         .catch((err) => console.log(err))

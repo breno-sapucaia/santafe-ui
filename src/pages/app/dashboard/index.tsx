@@ -1,5 +1,6 @@
 import { Container, createStyles, makeStyles, Theme } from '@material-ui/core'
 import { Chart } from '../../../components/private/Chart'
+import { Drawer } from '../../../components/private/Drawer'
 import { ChartsContainer } from './styles'
 
 export function Dashboard() {
@@ -85,6 +86,7 @@ export function Dashboard() {
           }}
         />
       </ChartsContainer>
+      <Drawer />
     </Container>
   )
 }

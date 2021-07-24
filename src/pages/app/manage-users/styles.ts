@@ -13,17 +13,16 @@ export const Button = styled.button<ButtonProps>`
   border: none;
   padding: 8px 16px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  position: relative;
 
   > svg {
     margin-right: 6px;
   }
 
   > nav {
-    height: ${({ isActive }) => (isActive ? 'auto' : '0')};
     transform: ${({ isActive }) => (isActive ? 'scale(1)' : 'scale(0)')};
     opacity: ${({ isActive }) => (isActive ? 1 : 0)};
     visibility: ${({ isActive }) => (isActive ? 'visible' : 'hidden')};
@@ -37,12 +36,22 @@ export const ItemsList = styled.nav`
   background: #ffffff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
   padding: 8px 18px;
-  transition: 0.5s;
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  left: 0;
+  top: 100%;
+  transition: 0.25s;
 
   button {
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.25px;
     color: #000000;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    margin: 10px 0;
   }
 `

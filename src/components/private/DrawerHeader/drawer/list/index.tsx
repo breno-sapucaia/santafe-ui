@@ -11,15 +11,16 @@ import { Dashboard, Description } from '@material-ui/icons'
 import clsx from 'clsx'
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
-import { ActionsJWT, useJwt } from '../../../../../config/contexts/jwt-context'
+import { useJWT } from '../../../../../hooks/useJWT'
 
 interface ListProps {
   pathname: string
-  isUserAdmin: boolean
 }
 
-function NavigationList({ pathname, isUserAdmin = true }: ListProps) {
-  const [, setGlobalState] = useJwt()
+function NavigationList({ pathname }: ListProps) {
+  const { removeToken, atobJSON } = useJWT()
+  const { role } = atobJSON()
+  const isUserAdmin = role === 'Admin'
   const classes = useStyles()
   return (
     <List>
@@ -34,7 +35,7 @@ function NavigationList({ pathname, isUserAdmin = true }: ListProps) {
         </ListItemIcon>
         <ListItemText primary='Dashboard' />
       </ListItem>
-      <ListItem
+      {/* <ListItem
         button
         component={Link}
         to='/relatorio'
@@ -44,7 +45,7 @@ function NavigationList({ pathname, isUserAdmin = true }: ListProps) {
           <Description />
         </ListItemIcon>
         <ListItemText primary='Relatórios' />
-      </ListItem>
+      </ListItem> */}
       {isUserAdmin && (
         <ListItem
           button
@@ -58,10 +59,7 @@ function NavigationList({ pathname, isUserAdmin = true }: ListProps) {
           <ListItemText primary='Gerenciar Cadastros' />
         </ListItem>
       )}
-      <ListItem
-        button
-        onClick={() => setGlobalState({ type: ActionsJWT.DELETE })}
-      >
+      <ListItem button onClick={removeToken}>
         <ListItemIcon>
           <Icon>logout</Icon>
         </ListItemIcon>
